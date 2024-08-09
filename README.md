@@ -71,19 +71,19 @@
 
 <h2 align="center">Contact</h2>
 <p>
-  Vishwas Awasthi - 
-  <a href="mailto:vishwasawasthi948@example.com">
+  MD Sharique - 
+  <a href="mailto:shariquevivo@gmail.com">
     <img src="https://img.icons8.com/ios-filled/50/000000/email.png" alt="Email Icon" style="width:20px;height:20px;"/>
   </a>
 </p>
 <p>
-  Suhail Ahmad - 
-  <a href="mailto:rbsuhail123@example.com">
+  Pankaj Gond - 
+  <a href="mailto:pankajgond741@gmail.com">
     <img src="https://img.icons8.com/ios-filled/50/000000/email.png" alt="Email Icon" style="width:20px;height:20px;"/>
   </a>
 </p>
 <p>
-  Sumit Saroj - 
+  Lavlesh Kumar Bais - 
   <a href="mailto:sumitsaroj123@example.com">
     <img src="https://img.icons8.com/ios-filled/50/000000/email.png" alt="Email Icon" style="width:20px;height:20px;"/>
   </a>
@@ -94,4 +94,3 @@
     <img src="https://img.icons8.com/ios-filled/50/000000/link.png" alt="Project Link Icon" style="width:20px;height:20px;"/>
   </a>
 </p>
-
