@@ -20,7 +20,6 @@ exports.resetPasswordToken = async (req, res) => {
     //Generate Token 
     const token = crypto.randomBytes(20).toString("hex")
 
-
     //update user by adding token and expiration time 
     const updatedDetails = await User.findOneAndUpdate(
       { email: email },
