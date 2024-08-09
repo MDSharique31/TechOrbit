@@ -6,7 +6,9 @@ const crypto = require("crypto")
 //reset Password token
 exports.resetPasswordToken = async (req, res) => {
   try {
+    //get email from req body
     const email = req.body.email
+    //check user for this email, email validation 
     const user = await User.findOne({ email: email })
     if (!user) {
       return res.json({
@@ -14,8 +16,12 @@ exports.resetPasswordToken = async (req, res) => {
         message: `This Email: ${email} is not Registered With Us Enter a Valid Email `,
       })
     }
+
+    //Generate Token 
     const token = crypto.randomBytes(20).toString("hex")
 
+
+    //update user by adding token and expiration time 
     const updatedDetails = await User.findOneAndUpdate(
       { email: email },
       {
@@ -29,13 +35,16 @@ exports.resetPasswordToken = async (req, res) => {
     // const url = `http://localhost:3000/update-password/${token}`
     const url = `https://studynotion-edtech-project.vercel.app/update-password/${token}`
 
+
+    //Send mail containing the url
     await mailSender(
       email,
       "Password Reset",
       `Your Link for email verification is ${url}. Please click this url to reset your password.`
     )
 
-    res.json({
+    //Return Response
+      return res.json({ 
       success: true,
       message:
         "Email Sent Successfully, Please Check Your Email to Continue Further",
@@ -49,17 +58,22 @@ exports.resetPasswordToken = async (req, res) => {
   }
 }
 
+//Reset password  
 exports.resetPassword = async (req, res) => {
   try {
-    const { password, confirmPassword, token } = req.body
 
+    //Data fetch 
+    const { password, confirmPassword, token } = req.body
+    //Validation 
     if (password !== confirmPassword) {
       return res.json({
         success: false,
         message: "Password and Confirm Password Does not Match",
       })
     }
+    //get userDetails from db using Token 
     const userDetails = await User.findOne({ token: token })
+    //if no entry - invalid Token 
     if (!userDetails) {
       return res.json({
         success: false,
@@ -72,7 +86,7 @@ exports.resetPassword = async (req, res) => {
         success: false,
         message: `Token is Expired, Please Regenerate Your Token`,
       })
-    }
+    } 
     //Hashed Password
     const hashedPassword = await bcrypt.hash(password, 10)
     await User.findOneAndUpdate(
