@@ -37,11 +37,11 @@ exports.createSection = async (req, res) => {
       .exec()
 
     // Return the updated course object in the response
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: "Section created successfully",
       updatedCourse,
-    })
+    });
   } catch (error) {
     // Handle errors
     res.status(500).json({
@@ -55,7 +55,13 @@ exports.createSection = async (req, res) => {
 // UPDATE a section
 exports.updateSection = async (req, res) => {
   try {
-    const { sectionName, sectionId, courseId } = req.body
+    const { sectionName, sectionId, courseId } = req.body;
+    if (!sectionName || !sectionId || !courseId) {
+      return res.status(400).json({
+        success: false,
+        message: 'Missing Properties',
+      });
+    }
     const section = await Section.findByIdAndUpdate(
       sectionId,
       { sectionName },
@@ -70,14 +76,14 @@ exports.updateSection = async (req, res) => {
       })
       .exec()
     console.log(course)
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
-      message: section,
+      message: 'Section updated successfully',
       data: course,
-    })
+    });
   } catch (error) {
     console.error("Error updating section:", error)
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: "Internal server error",
       error: error.message,
@@ -117,14 +123,14 @@ exports.deleteSection = async (req, res) => {
       })
       .exec()
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
-      message: "Section deleted",
+      message: "Section deleted successfully",
       data: course,
     })
   } catch (error) {
     console.error("Error deleting section:", error)
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: "Internal server error",
       error: error.message,
