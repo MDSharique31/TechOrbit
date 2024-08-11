@@ -8,10 +8,10 @@ const tagsSchema = new mongoose.Schema({
 	},
 	description:
 		{
-			type: String,
+            type: String,
       },
       course: {
-            type: mongoose.Schema.Types.objectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref:"Course",
       },
 });
