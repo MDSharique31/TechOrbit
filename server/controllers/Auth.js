@@ -63,7 +63,7 @@ exports.signup = async (req, res) => {
       return res.status(400).json({
         success: false,
         message: "The OTP is not valid",
-      })
+      });
     } else if (otp !== response[0].otp) {
       // Invalid OTP
       return res.status(400).json({
@@ -85,7 +85,7 @@ exports.signup = async (req, res) => {
       dateOfBirth: null,
       about: null,
       contactNumber: null,
-    })
+    });
     const user = await User.create({
       firstName,
       lastName,
@@ -96,7 +96,7 @@ exports.signup = async (req, res) => {
       approved: approved,
       additionalDetails: profileDetails._id,
       image: `https://api.dicebear.com/5.x/initials/svg?seed=${firstName} ${lastName}`,
-    }) 
+    });
 
     return res.status(200).json({
       success: true,
@@ -108,9 +108,9 @@ exports.signup = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "User cannot be registered. Please try again.",
-    })
+    });
   }
-}
+};
 
 // Login controller for authenticating users
 exports.login = async (req, res) => {
@@ -121,7 +121,7 @@ exports.login = async (req, res) => {
     // Check if email or password is missing
     if (!email || !password) {
       // Return 403 Bad Request status code with error message
-      return res.status(403).json({
+      return res.status(400).json({
         success: false,
         message: `Please Fill up All the Required Fields`,
       })
