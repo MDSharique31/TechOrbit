@@ -67,8 +67,8 @@ exports.updateProfile = async (req, res) => {
 //Methods for deleting account
 exports.deleteAccount = async (req, res) => {
   try {
-    const id = req.user.id
-    console.log(id)
+    const id = req.user.id;
+    console.log("Printing ID: ", id);
     const user = await User.findById({ _id: id });
     //User details validation
     if (!user) {
@@ -79,7 +79,7 @@ exports.deleteAccount = async (req, res) => {
     }
     // Delete Assosiated Profile with the User
     await Profile.findByIdAndDelete({
-      _id: user.userDetails,
+      _id: user.additionalDetails,
     });
     // for (const courseId of user.courses) {
     //   await Course.findByIdAndUpdate(

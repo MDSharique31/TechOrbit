@@ -94,7 +94,8 @@ exports.updateSection = async (req, res) => {
 // DELETE a section
 exports.deleteSection = async (req, res) => {
   try {
-    const { sectionId, courseId } = req.body
+    const { sectionId, courseId } = req.body;
+    await Section.findByIdAndDelete(sectionId);
     await Course.findByIdAndUpdate(courseId, {
       $pull: {
         courseContent: sectionId,
@@ -110,8 +111,6 @@ exports.deleteSection = async (req, res) => {
     }
     // Delete the associated subsections
     await SubSection.deleteMany({ _id: { $in: section.subSection } })
-
-    await Section.findByIdAndDelete(sectionId)
 
     // find the updated course and return it
     const course = await Course.findById(courseId)

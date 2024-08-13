@@ -141,15 +141,15 @@ exports.login = async (req, res) => {
 
     // Generate JWT token and Compare Password
     if (await bcrypt.compare(password, user.password)) {
-      const payload = 
+      const token = jwt.sign(
         {
           email: user.email,
           id: user._id,
           accountType: user.accountType,
-        }
-      const token = jwt.sign(payload, process.env.JWT_SECRET,
+        },
+        process.env.JWT_SECRET,
         {
-          expiresIn: "2h",
+          expiresIn: "24h",
         });
 
       // Save token to user document in database
@@ -188,7 +188,7 @@ exports.sendotp = async (req, res) => {
 
     // Check if user is already present
     // Find user with provided email
-    const checkUserPresent = await User.findOne({ email })
+    const checkUserPresent = await User.findOne({ email });
     // to be used in case of signup
 
     // If user found with provided email
@@ -197,35 +197,45 @@ exports.sendotp = async (req, res) => {
       return res.status(401).json({
         success: false,
         message: `User is Already Registered`,
-      })
+      });
     }
+    let otp;
+    let result;
 
-    var otp = otpGenerator.generate(6, {
-      upperCaseAlphabets: false,
-      lowerCaseAlphabets: false,
-      specialChars: false,
-    })
-    const result = await OTP.findOne({ otp: otp })
-    console.log("Result is Generate OTP Func")
-    console.log("OTP", otp)
-    console.log("Result", result)
-    while (result) {
+    // var otp = otpGenerator.generate(6, {
+    //   upperCaseAlphabets: false,
+    //   lowerCaseAlphabets: false,
+    //   specialChars: false,
+    // })
+    do {
       otp = otpGenerator.generate(6, {
         upperCaseAlphabets: false,
         lowerCaseAlphabets: false,
         specialChars: false,
-      })
-    }
-    const otpPayload = { email, otp }
+      });
+      result = await OTP.findOne({ otp });
+    } while (result);
+    // const result = await OTP.findOne({ otp: otp })
+    // console.log("Result is Generate OTP Func")
+    // console.log("OTP", otp)
+    // console.log("Result", result)
+    // while (result) {
+    //   otp = otpGenerator.generate(6, {
+    //     upperCaseAlphabets: false,
+    //     lowerCaseAlphabets: false,
+    //     specialChars: false,
+    //   })
+    // }
+    const otpPayload = { email, otp };
     // Create an entry for otp in DB
     const otpBody = await OTP.create(otpPayload);
     console.log("OTP Body", otpBody)
     // Return response successfully
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: 'OTP Sent Successfully',
       otp,
-    })
+    });
   } catch (error) {
     console.log(error)
     return res.status(500).json({
