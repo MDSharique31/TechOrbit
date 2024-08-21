@@ -50,7 +50,7 @@ function Navbar() {
       }
       setLoading(false)
     })()
-  }, [])
+  }, [])   
 
   // console.log("sub links", subLinks)
 
