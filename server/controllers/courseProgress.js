@@ -22,7 +22,7 @@ exports.updateCourseProgress = async (req, res) => {
     })
 
     if (!courseProgress) {
-      // If course progress doesn't exist, create a new one
+      // if  course progress doesn't exist, create a new one
       return res.status(404).json({
         success: false,
         message: "Course progress Does Not Exist",
